@@ -1,5 +1,6 @@
 package study.chat.repository;
 
+import org.springframework.data.redis.listener.ChannelTopic;
 import study.chat.dto.ChatRoom;
 
 import java.util.List;
@@ -12,4 +13,7 @@ public interface ChatRoomRepository {
 
     ChatRoom createRoom(String name);
 
+    void enterChatRoom(String roomId);
+
+    ChannelTopic getTopic(String roomId);
 }

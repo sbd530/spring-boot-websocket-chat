@@ -1,12 +1,12 @@
 package study.chat.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.redis.listener.ChannelTopic;
 import study.chat.dto.ChatRoom;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
 
-@Repository
+//@Repository
 public class ChatRoomRepositoryMap implements ChatRoomRepository {
 
     private Map<String, ChatRoom> chatRoomMap;
@@ -33,6 +33,16 @@ public class ChatRoomRepositoryMap implements ChatRoomRepository {
         ChatRoom chatRoom = ChatRoom.create(name);
         chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
         return chatRoom;
+    }
+
+    @Override
+    public void enterChatRoom(String roomId) {
+
+    }
+
+    @Override
+    public ChannelTopic getTopic(String roomId) {
+        return null;
     }
 
 }
