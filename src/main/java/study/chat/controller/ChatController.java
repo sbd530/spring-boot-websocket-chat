@@ -1,35 +1,24 @@
 package study.chat.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import study.chat.dto.ChatRoom;
-import study.chat.service.ChatService;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Controller;
+import study.chat.dto.ChatMessage;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping("/chat")
 public class ChatController {
 
-    private final ChatService chatService;
+    private final SimpMessageSendingOperations messagingTemplate;
 
-    @PostMapping
-    public ChatRoom createRoom(@RequestParam String name) {
-        return chatService.createRoom(name);
+    // MessageBrokerRegistry.setApplicationDestinationPrefixes("/pub");
+    @MessageMapping("/chat/message")
+    public void message(ChatMessage message) {
+        if (message.getType().equals(ChatMessage.MessageType.ENTER))
+            message.setMessage(message.getSender() + "님이 입장하셨습니다.");
+
+        // /sub/chat/room/{roomId}
+        messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
-
-    @GetMapping
-    public ChatRoomListWrapper<ChatRoom> findAllRoom() {
-        List<ChatRoom> allRoom = chatService.findAllRoom();
-        return new ChatRoomListWrapper<>(allRoom);
-    }
-
-    private static class ChatRoomListWrapper<T extends ChatRoom> {
-        List<T> rooms;
-        public ChatRoomListWrapper(List<T> rooms) {
-            this.rooms = rooms;
-        }
-    }
-
 }

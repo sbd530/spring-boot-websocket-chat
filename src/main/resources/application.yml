@@ -1,6 +1,8 @@
 spring:
+
   profiles:
-    active: dev
+    active: local
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/chat
     username: sa
@@ -12,9 +14,15 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        #        show_sql: true
         format_sql: true
+#        show_sql: true
 #        use_sql_comments: true
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
 
 logging.level:
   org.hibernate.SQL: debug
