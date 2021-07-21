@@ -29,4 +29,5 @@ public class ChatMessage {
         this.message = message;
         this.userCount = userCount;
     }
+
 }
