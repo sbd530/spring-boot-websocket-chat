@@ -3,6 +3,9 @@ spring:
   profiles:
     active: local
 
+  jwt:
+    secret: mySecretKey!@#$%^&*()-_~
+
   redis:
     host: localhost
     port: 6380
